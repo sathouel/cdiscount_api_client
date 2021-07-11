@@ -50,6 +50,7 @@ class CdiscountClient:
         self._session.headers.update({
             'Authorization': 'Bearer {}'.format(access_token),
             'Ocp-Apim-Subscription-Key': self._subscription_key,
+            'Cache-Control': 'no-cache',
             'SellerId': self._seller_id
         })
 
