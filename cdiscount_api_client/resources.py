@@ -3,10 +3,11 @@ import json
 from cdiscount_api_client.utils import urljoin
 
 class ResourcePool:
-    def __init__(self, endpoint, session):
+    def __init__(self, endpoint, session, subscription_key=None):
         """Initialize the ResourcePool to the given endpoint. Eg: products"""
         self._endpoint = endpoint
         self._session = session
+        self._session.headers['Ocp-Apim-Subscription-Key'] = subscription_key
 
     def get_url(self):
         return self._endpoint

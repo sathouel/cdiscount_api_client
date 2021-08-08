@@ -11,26 +11,26 @@ class AuthError:
 class CdiscountClient:
     BASE_URL = 'https://marketplaceapi.cdiscount.com'
 
-    def __init__(self, client_id, client_secret, subscription_key, seller_id):
+    def __init__(self, client_id, client_secret, seller_id, subscription_keys={}):
         self._session = rq.Session()
 
         self._client_id = client_id
         self._client_secret = client_secret
-        self._subscription_key = subscription_key
         self._seller_id = seller_id
+        self._subscription_keys = subscription_keys
 
         self._urls = {
             'token': "https://oauth2.cdiscount.com/auth/realms/maas-international-sellers/protocol/openid-connect/token"
         }
         self._resources = {
             'product_management': resources.ProductManagementPool(
-                utils.urljoin(self.BASE_URL, 'productManagement'), self._session
+                utils.urljoin(self.BASE_URL, 'productManagement'), self._session, self._subscription_keys.get('product')
             ),
             'order_management': resources.OrderManagementPool(
-                utils.urljoin(self.BASE_URL, 'OrderManagement/orders'), self._session
+                utils.urljoin(self.BASE_URL, 'OrderManagement/orders'), self._session, self._subscription_keys.get('order')
             ),
             'offer_management': resources.OfferManagementPool(
-                utils.urljoin(self.BASE_URL, 'offerManagement'), self._session
+                utils.urljoin(self.BASE_URL, 'offerManagement'), self._session, self._subscription_keys.get('offer')
             )
         }
 
@@ -49,7 +49,6 @@ class CdiscountClient:
         access_token = res.json()['access_token']
         self._session.headers.update({
             'Authorization': 'Bearer {}'.format(access_token),
-            'Ocp-Apim-Subscription-Key': self._subscription_key,
             'Cache-Control': 'no-cache',
             'SellerId': self._seller_id
         })
