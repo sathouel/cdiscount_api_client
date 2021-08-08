@@ -3,11 +3,12 @@ import json
 from cdiscount_api_client.utils import urljoin
 
 class ResourcePool:
-    def __init__(self, endpoint, session, subscription_key=None):
+    def __init__(self, endpoint, session, subscription_key):
         """Initialize the ResourcePool to the given endpoint. Eg: products"""
         self._endpoint = endpoint
         self._session = session
-        self._session.headers['Ocp-Apim-Subscription-Key'] = subscription_key
+        self._subscription_key = subscription_key
+        self._session.headers['Ocp-Apim-Subscription-Key'] = self._subscription_key
 
     def get_url(self):
         return self._endpoint
@@ -64,25 +65,25 @@ class ProductManagementPool(ResourcePool):
     @property
     def categories(self):
         return ProductManagementCatgoriesPool(
-            urljoin(self._endpoint, 'categories'), self._session
+            urljoin(self._endpoint, 'categories'), self._session, self._subscription_key
         )
     
     @property
     def models(self):
         return ProductManagementModelsPool(
-            urljoin(self._endpoint, 'models'), self._session
+            urljoin(self._endpoint, 'models'), self._session, self._subscription_key
         )
 
     @property
     def search_products(self):
         return ProductManagementProductSearchPool(
-            urljoin(self._endpoint, 'products/search',), self._session
+            urljoin(self._endpoint, 'products/search',), self._session, self._subscription_key
         )
 
     @property
     def product_integration_packages(self):
         return ProductManagementProductIntegrationPool(
-            urljoin(self._endpoint, 'product-integration-packages',), self._session
+            urljoin(self._endpoint, 'product-integration-packages',), self._session, self._subscription_key
         )
 
 class ProductManagementCatgoriesPool(
@@ -113,25 +114,25 @@ class OfferManagementPool(ResourcePool):
     @property
     def competing_offer_changes(self):
         return OfferManagementCompetingOfferChangesPool(
-            urljoin(self._endpoint, 'competing-offer-changes'), self._session
+            urljoin(self._endpoint, 'competing-offer-changes'), self._session, self._subscription_key
         )
 
     @property
     def offers(self):
         return OfferManagementOffersPool(
-            urljoin(self._endpoint, 'offers'), self._session
+            urljoin(self._endpoint, 'offers'), self._session, self._subscription_key
         )
 
     @property
     def offer_integration_packages(self):
         return OfferManagementOfferIntegrationPackagesPool(
-            urljoin(self._endpoint, 'offer-integration-packages'), self._session
+            urljoin(self._endpoint, 'offer-integration-packages'), self._session, self._subscription_key
         )
 
     @property
     def seller_deals_search(self):
         return OfferManagementSellerDealsSearchPool(
-            urljoin(self._endpoint, 'seller-deals/search'), self._session
+            urljoin(self._endpoint, 'seller-deals/search'), self._session, self._subscription_key
         )        
 
 class OfferManagementCompetingOfferChangesPool(
@@ -146,7 +147,7 @@ class OfferManagementOffersPool(
     @property
     def search(self):
         return OfferManagementOffersSearchPool(
-            urljoin(self._endpoint, 'search'), self._session
+            urljoin(self._endpoint, 'search'), self._session, self._subscription_key
         )
 
 class OfferManagementOffersSearchPool(
@@ -172,22 +173,22 @@ class OrderManagementPool(ResourcePool):
     @property
     def search_orders(self):
         return OrderManagementSearchOrdersPool(
-            urljoin(self._endpoint, 'search'), self._session
+            urljoin(self._endpoint, 'search'), self._session, self._subscription_key
         )    
     
     def commercial_gestures(self, order_number):
         return OrderManagementCommercialGesturesPool(
-            urljoin(self._endpoint, order_number, 'commercial-gestures'), self._session
+            urljoin(self._endpoint, order_number, 'commercial-gestures'), self._session, self._subscription_key
         )
 
     def commercial_gesture_eligibilities(self, order_number):
         return OrderManagementCommercialGestureEligibilitiesPool(
-            urljoin(self._endpoint, order_number, 'commercial-gesture-eligibilities'), self._session
+            urljoin(self._endpoint, order_number, 'commercial-gesture-eligibilities'), self._session, self._subscription_key
         )
 
     def validate_order(self, order_number):
         return OrderManagementValidateOrdersPool(
-            urljoin(self._endpoint, order_number, 'validate'), self._session
+            urljoin(self._endpoint, order_number, 'validate'), self._session, self._subscription_key
         )
 
 class OrderManagementCommercialGesturesPool(
