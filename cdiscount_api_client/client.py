@@ -50,6 +50,7 @@ class CdiscountClient:
         self._session.headers.update({
             'Authorization': 'Bearer {}'.format(access_token),
             'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json-patch+json',
             'SellerId': self._seller_id
         })
 
