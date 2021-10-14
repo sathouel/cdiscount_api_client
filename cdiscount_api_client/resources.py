@@ -48,7 +48,7 @@ class UpdatableResource:
         if code is None:
             code = item.get('id')
         url = urljoin(self._endpoint, code)
-        res = self._session.put(url, data=json.dumps(item))
+        res = self._session.patch(url, data=json.dumps(item))
         return res
 
 class DeletableResource:
