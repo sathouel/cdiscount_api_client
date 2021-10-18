@@ -45,9 +45,7 @@ class SearchableResource:
 
 class UpdatableResource:
     def update_create_item(self, item, code=None):
-        if code is None:
-            code = item.get('id')
-        url = urljoin(self._endpoint, code)
+        url = urljoin(self._endpoint, code) if code else self._endpoint
         res = self._session.patch(url, data=json.dumps(item))
         return res
 
