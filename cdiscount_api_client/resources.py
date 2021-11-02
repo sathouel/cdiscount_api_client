@@ -25,9 +25,9 @@ class CreatableResource:
         return res
 
 class GettableResource:
-    def fetch_item(self, code):
+    def fetch_item(self, code, params=None):
         url = urljoin(self._endpoint, code)
-        res = self._session.get(url)
+        res = self._session.get(url, params=params)
         return res
 
 class ListableResource:
