@@ -116,6 +116,12 @@ class OfferManagementPool(ResourcePool):
         )
 
     @property
+    def competing_offers(self):
+        return OfferManagementCompetingOffersPool(
+            urljoin(self._endpoint, 'competing-offers'), self._session, self._subscription_key
+        )        
+
+    @property
     def offers(self):
         return OfferManagementOffersPool(
             urljoin(self._endpoint, 'offers'), self._session, self._subscription_key
@@ -134,6 +140,11 @@ class OfferManagementPool(ResourcePool):
         )        
 
 class OfferManagementCompetingOfferChangesPool(
+    ResourcePool,
+    ListableResource):
+    pass
+
+class OfferManagementCompetingOffersPool(
     ResourcePool,
     ListableResource):
     pass
