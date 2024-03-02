@@ -9,7 +9,8 @@ class AuthError:
     pass
 
 class CdiscountClient:
-    BASE_URL = 'https://marketplaceapi.cdiscount.com'
+    # BASE_URL = 'https://marketplaceapi.cdiscount.com'
+    BASE_URL = 'https://api.octopia-io.net'
 
     def __init__(self, client_id, client_secret, seller_id, subscription_keys={}):
         self._session = rq.Session()
